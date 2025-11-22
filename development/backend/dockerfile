@@ -8,6 +8,8 @@ RUN yarn install
 
 ADD development/backend/ /YellowBook/development/backend
 
+RUN chmod +x entrypoint.sh
+
 EXPOSE 8085
 
-CMD ["yarn", "start"]
+CMD ["./entrypoint.sh"]
