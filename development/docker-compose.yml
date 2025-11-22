@@ -1,0 +1,60 @@
+services:
+  frontend:
+    build:
+      context: ..
+      dockerfile: development/frontend/Dockerfile
+    ports:
+      - "${FRONTEND_PORT}:${FRONTEND_PORT}"
+    volumes:
+      - ./frontend:/YellowBook/production/frontend
+    restart: always
+    env_file:
+      - .env
+    networks:
+      - local-network
+
+  backend:
+    build:
+      context: ..
+      dockerfile: development/backend/Dockerfile
+    ports:
+      - "${BACKEND_PORT}:${BACKEND_PORT}"
+    volumes:
+      - ./backend:/YellowBook/production/backend
+    restart: always
+    env_file:
+      - .env
+    networks:
+      - local-network
+
+  db:
+    image: mysql:8.0
+    ports:
+      - "${MYSQL_PORT}:${MYSQL_PORT}"
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+    volumes:
+      - ../development-project-data/mysql-data:/var/lib/mysql
+    restart: always
+    env_file:
+      - .env
+    networks:
+      - local-network
+
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    ports:
+      - "8082:80"
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+    restart: always
+    env_file:
+      - .env
+    networks:
+      - local-network
+
+networks:
+  local-network:
+    driver: bridge

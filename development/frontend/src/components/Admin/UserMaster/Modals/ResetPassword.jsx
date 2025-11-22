@@ -1,15 +1,13 @@
-import { useEffect, useState } from 'react'
-import { Grid, TextField } from '@mui/material'
-import BasicDropDown from '../../../General/BasicDropDown'
+import { Grid, TextField } from "@mui/material";
 
 const ResetPassword = ({ resetPasswordRef }) => {
   return (
     <Grid container gap={2}>
       <Grid size={12}>
         <TextField
-          label='New password'
+          label="New password"
           defaultValue={resetPasswordRef.current.newPassword}
-          onChange={e =>
+          onChange={(e) =>
             (resetPasswordRef.current.newPassword = e.target.value)
           }
           fullWidth
@@ -17,15 +15,15 @@ const ResetPassword = ({ resetPasswordRef }) => {
       </Grid>
       <Grid size={12}>
         <TextField
-          label='Confirm password'
+          label="Confirm password"
           defaultValue={resetPasswordRef.current.confirmPassword}
-          onChange={e =>
+          onChange={(e) =>
             (resetPasswordRef.current.confirmPassword = e.target.value)
           }
           fullWidth
         />
       </Grid>
     </Grid>
-  )
-}
-export default ResetPassword
+  );
+};
+export default ResetPassword;

@@ -1,178 +1,181 @@
-import React, { useCallback, useEffect, useRef, useState } from 'react'
-import UserHeader from './UserHeader'
-import UserModals from './UserModals'
-import * as userActions from '../../../actions/users_api'
-import BaseTable from '../../General/BaseTable'
-import { Notification } from '../../General/Notification'
-import UserList from './UserList'
+import React, { useCallback, useEffect, useRef, useState } from "react";
+import UserHeader from "./UserHeader";
+import UserModals from "./UserModals";
+import * as userActions from "../../../actions/users_api";
+import BaseTable from "../../General/BaseTable";
+import { Notification } from "../../General/Notification";
+import UserList from "./UserList";
 
 const columns = [
-  { key: 'name', label: 'Name', width: '70%', align: 'left' },
-  { key: 'actions', label: 'Actions', align: 'center' }
-]
+  { key: "name", label: "Name", width: "70%", align: "left" },
+  { key: "actions", label: "Actions", align: "center" },
+];
 
 export const CREATE_USER = {
-  user_name: '',
-  password: '',
-  role: '',
-  contact: ''
-}
-export const UPDATE_USER = { id: null, user_name: '', role: '', contact: '' }
+  user_name: "",
+  password: "",
+  role: "",
+  contact: "",
+};
+export const UPDATE_USER = { id: null, user_name: "", role: "", contact: "" };
 export const RESET_PASSWORD = {
   id: null,
-  newPassword: '',
-  confirmPassword: ''
-}
+  newPassword: "",
+  confirmPassword: "",
+};
 const DELETE_USER = {
-  id: '',
-  userName: ''
-}
+  id: "",
+  userName: "",
+};
 
 const UserMaster = () => {
-  const [isOpenModal, setIsOpenModal] = useState(false)
-  const [modalAction, setModalAction] = useState('')
-  const [filter, setFilter] = useState('')
-  const [userList, setUserList] = useState([])
-  const [isLoading, setIsLoading] = useState(false)
+  const [isOpenModal, setIsOpenModal] = useState(false);
+  const [modalAction, setModalAction] = useState("");
+  const [filter, setFilter] = useState("");
+  const [userList, setUserList] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
 
-  const createUserRef = useRef(CREATE_USER)
-  const updateUserRef = useRef(UPDATE_USER)
-  const resetPasswordRef = useRef(RESET_PASSWORD)
-  const deleteUserRef = useRef(DELETE_USER)
+  const createUserRef = useRef(CREATE_USER);
+  const updateUserRef = useRef(UPDATE_USER);
+  const resetPasswordRef = useRef(RESET_PASSWORD);
+  const deleteUserRef = useRef(DELETE_USER);
 
   const { data: isUserData, refetch: refetchUsers } =
-    userActions.useGetAllUsers()
+    userActions.useGetAllUsers();
 
   const { status: isUserCreated, mutate: createUser } =
-    userActions.useCreateUser()
+    userActions.useCreateUser();
 
   const { status: isUserResetPassword, mutate: resetPassword } =
-    userActions.resetPasswordByAdmin()
+    userActions.resetPasswordByAdmin();
 
   const { status: isUpdateUser, mutate: updateUser } =
-    userActions.useUpdateUser()
+    userActions.useUpdateUser();
 
   const { status: isUserDeleted, mutate: deleteUser } =
-    userActions.useDeleteUser()
+    userActions.useDeleteUser();
 
   useEffect(() => {
-    refetchUsers()
-  }, [])
+    refetchUsers();
+  }, []);
 
   useEffect(() => {
-    if (isUserData) setUserList(isUserData)
-  }, [isUserData])
+    if (isUserData) setUserList(isUserData);
+  }, [isUserData]);
 
   useEffect(() => {
     if (isUserCreated) {
-      if (isUserCreated === 'success') {
-        refetchUsers()
-        setIsOpenModal(false)
-        setIsLoading(false)
-        Notification({ type: 'success', title: 'User created successfully!' })
-        createUserRef.current = { ...CREATE_USER }
-      } else if (isUserCreated === 'error') {
-        setIsOpenModal(false)
-        setIsLoading(false)
-        Notification({ type: 'error', title: 'Failed to create user!' })
+      if (isUserCreated === "success") {
+        refetchUsers();
+        setIsOpenModal(false);
+        setIsLoading(false);
+        Notification({ type: "success", title: "User created successfully!" });
+        createUserRef.current = { ...CREATE_USER };
+      } else if (isUserCreated === "error") {
+        setIsOpenModal(false);
+        setIsLoading(false);
+        Notification({ type: "error", title: "Failed to create user!" });
       }
     }
-  }, [isUserCreated])
+  }, [isUserCreated]);
 
   useEffect(() => {
     if (isUpdateUser) {
-      if (isUpdateUser === 'success') {
-        refetchUsers()
-        setIsOpenModal(false)
-        setIsLoading(false)
-        Notification({ type: 'success', title: 'User updated successfully!' })
-      } else if (isUpdateUser === 'error') {
-        setIsOpenModal(false)
-        setIsLoading(false)
-        Notification({ type: 'error', title: 'Failed to update user!' })
+      if (isUpdateUser === "success") {
+        refetchUsers();
+        setIsOpenModal(false);
+        setIsLoading(false);
+        Notification({ type: "success", title: "User updated successfully!" });
+      } else if (isUpdateUser === "error") {
+        setIsOpenModal(false);
+        setIsLoading(false);
+        Notification({ type: "error", title: "Failed to update user!" });
       }
     }
-  }, [isUpdateUser])
+  }, [isUpdateUser]);
 
   useEffect(() => {
     if (isUserResetPassword) {
-      if (isUserResetPassword === 'success') {
-        setIsOpenModal(false)
-        setIsLoading(false)
-        Notification({ type: 'success', title: 'Password reset successfully!' })
-      } else if (isUserResetPassword === 'error') {
-        setIsOpenModal(false)
-        setIsLoading(false)
-        Notification({ type: 'success', title: 'Failed to reset password!' })
+      if (isUserResetPassword === "success") {
+        setIsOpenModal(false);
+        setIsLoading(false);
+        Notification({
+          type: "success",
+          title: "Password reset successfully!",
+        });
+      } else if (isUserResetPassword === "error") {
+        setIsOpenModal(false);
+        setIsLoading(false);
+        Notification({ type: "success", title: "Failed to reset password!" });
       }
     }
-  }, [isUserResetPassword])
+  }, [isUserResetPassword]);
 
   useEffect(() => {
     if (isUserDeleted) {
-      if (isUserDeleted === 'success') {
-        refetchUsers()
-        setIsOpenModal(false)
-        setIsLoading(false)
-        Notification({ type: 'success', title: 'User delted successfully !' })
-      } else if (isUserDeleted === 'error') {
-        setIsOpenModal(false)
-        setIsLoading(false)
-        Notification({ type: 'success', title: 'Failed to delete user !' })
+      if (isUserDeleted === "success") {
+        refetchUsers();
+        setIsOpenModal(false);
+        setIsLoading(false);
+        Notification({ type: "success", title: "User delted successfully !" });
+      } else if (isUserDeleted === "error") {
+        setIsOpenModal(false);
+        setIsLoading(false);
+        Notification({ type: "success", title: "Failed to delete user !" });
       }
     }
-  }, [isUserDeleted])
+  }, [isUserDeleted]);
 
   useEffect(() => {
-    setIsLoading(true)
+    setIsLoading(true);
     const delay = setTimeout(() => {
       if (filter) {
         setUserList(
-          isUserData?.filter(item =>
+          isUserData?.filter((item) =>
             item.user_name.toLowerCase().includes(filter.toLowerCase())
           )
-        )
+        );
       } else {
-        setUserList(isUserData)
+        setUserList(isUserData);
       }
-      setIsLoading(false)
-    }, 300)
-    return () => clearTimeout(delay)
-  }, [filter, isUserData])
+      setIsLoading(false);
+    }, 300);
+    return () => clearTimeout(delay);
+  }, [filter, isUserData]);
 
   const handleActions = useCallback(() => {
-    setIsLoading(true)
+    setIsLoading(true);
     switch (modalAction) {
-      case 'Add':
-        createUser(createUserRef.current)
-        break
-      case 'Edit':
-        updateUser(updateUserRef.current)
-        break
-      case 'Delete':
-        deleteUser(deleteUserRef.current.id)
-        break
-      case 'ResetPassword':
+      case "Add":
+        createUser(createUserRef.current);
+        break;
+      case "Edit":
+        updateUser(updateUserRef.current);
+        break;
+      case "Delete":
+        deleteUser(deleteUserRef.current.id);
+        break;
+      case "ResetPassword":
         if (
           resetPasswordRef.current.newPassword !==
           resetPasswordRef.current.confirmPassword
         ) {
           Notification({
-            type: 'error',
-            title: 'Make sure to enter the same password in both fields!'
-          })
-          setIsLoading(false)
-          return
+            type: "error",
+            title: "Make sure to enter the same password in both fields!",
+          });
+          setIsLoading(false);
+          return;
         }
         resetPassword({
           id: resetPasswordRef.current.id,
-          new_password: resetPasswordRef.current.newPassword
-        })
-        break
+          new_password: resetPasswordRef.current.newPassword,
+        });
+        break;
       default:
-        break
+        break;
     }
-  }, [modalAction])
+  }, [modalAction]);
 
   return (
     <>
@@ -210,7 +213,7 @@ const UserMaster = () => {
         deleteUserRef={deleteUserRef}
       />
     </>
-  )
-}
+  );
+};
 
-export default UserMaster
+export default UserMaster;

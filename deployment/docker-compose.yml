@@ -2,19 +2,21 @@ services:
   frontend:
     build:
       context: ..
-      dockerfile: development/frontend/Dockerfile
+      dockerfile: deployment/production.frontend.dockerfile
     ports:
-      - "80:80"
+      - "${FRONTEND_PORT}:${FRONTEND_PORT}"
     networks:
       - local-network
     restart: always
+    env_file:
+      - .env
 
   backend:
     build:
       context: ..
-      dockerfile: development/backend/dockerfile
+      dockerfile: deployment/production.backend.dockerfile
     expose:
-      - "8085"
+      - "${BACKEND_PORT}"
     restart: always
     env_file:
       - .env
@@ -25,32 +27,16 @@ services:
     image: mysql:8.0
     restart: always
     ports:
-      - "3306:3306"
+      - "${MYSQL_PORT}:${MYSQL_PORT}"
     environment:
-      MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
-      MYSQL_DATABASE: ${DB_NAME}
-      MYSQL_USER: ${DB_USER}
+      MYSQL_ROOT_PASSWORD: ${MYSQL_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
     volumes:
-      - mysql_data:/var/lib/mysql
+      - ../production-project-data/mysql-data:/var/lib/mysql
     env_file:
       - .env
     networks:
       - local-network
-
-  phpmyadmin:
-    image: phpmyadmin/phpmyadmin
-    restart: always
-    ports:
-      - "8081:80"
-    environment:
-      MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
-      MYSQL_DATABASE: ${DB_NAME}
-      MYSQL_USER: ${DB_USER}
-    networks:
-      - local-network
-
-volumes:
-  mysql_data:
 
 networks:
   local-network:

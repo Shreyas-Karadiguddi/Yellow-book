@@ -1,5 +1,5 @@
 import { useMutation, useQuery } from "react-query";
-import { axiosInstance as axios } from "../../utils/AxiosInstance";
+import { axiosInstance as axios } from "../../utils/axiosInstance";
 
 export const useLoginUser = () => {
   return useMutation({

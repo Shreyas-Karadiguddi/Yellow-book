@@ -1,21 +1,15 @@
 FROM node:22-alpine AS build
 
-WORKDIR /YellowBook/production/frontend
+WORKDIR /YellowBook/development/frontend
 
-ADD development/frontend/package*.json /YellowBook/production/frontend
+ADD development/frontend/package*.json /YellowBook/development/frontend/
 
 RUN yarn install
 
-ADD development/frontend/ /YellowBook/production/frontend
+ADD development/frontend/ /YellowBook/development/frontend/
 
 RUN yarn build
 
-FROM nginx:alpine
-
-COPY deployment/nginx.config /etc/nginx/nginx.conf
-
-COPY --from=build /YellowBook/production/frontend/dist /usr/share/nginx/html
-
 EXPOSE 80
 
-CMD ["nginx", "-g", "daemon off;"]
+CMD [ "yarn","dev" ]

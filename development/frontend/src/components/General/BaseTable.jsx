@@ -1,4 +1,4 @@
-import React from 'react'
+import React from "react";
 import {
   Box,
   CircularProgress,
@@ -8,9 +8,9 @@ import {
   TableRow,
   TableCell,
   TableBody,
-  TableContainer
-} from '@mui/material'
-import { SkeletonLoader } from './Loader'
+  TableContainer,
+} from "@mui/material";
+import { SkeletonLoader } from "./Loader";
 
 const BaseTable = ({
   columns = [],
@@ -18,31 +18,31 @@ const BaseTable = ({
   isLoading = false,
   height = 400,
   width = 900,
-  renderRow
+  renderRow,
 }) => {
   return (
-    <Box sx={{ display: 'flex', justifyContent: 'center' }}>
+    <Box sx={{ display: "flex", justifyContent: "center" }}>
       <Paper
         sx={{
-          width: '100%',
+          width: "100%",
           maxWidth: width,
           borderRadius: 2,
-          overflow: 'hidden'
+          overflow: "hidden",
         }}
       >
-        <TableContainer sx={{ maxHeight: height, scrollbarWidth: 'thin' }}>
-          <Table stickyHeader sx={{ width: '100%' }}>
+        <TableContainer sx={{ maxHeight: height, scrollbarWidth: "thin" }}>
+          <Table stickyHeader sx={{ width: "100%" }}>
             <TableHead>
               <TableRow>
-                {columns.map(col => (
+                {columns.map((col) => (
                   <TableCell
                     key={col.key}
                     sx={{
-                      color: '#fff',
-                      fontWeight: 'bold',
-                      width: col.width || 'auto',
-                      backgroundColor: '#a4a5f5',
-                      textAlign: col.align || 'left'
+                      color: "#fff",
+                      fontWeight: "bold",
+                      width: col.width || "auto",
+                      backgroundColor: "#a4a5f5",
+                      textAlign: col.align || "left",
                     }}
                   >
                     {col.label}
@@ -55,7 +55,7 @@ const BaseTable = ({
                 <TableRow>
                   <TableCell
                     colSpan={columns.length}
-                    align='center'
+                    align="center"
                     sx={{ p: 3 }}
                   >
                     <SkeletonLoader />
@@ -67,7 +67,7 @@ const BaseTable = ({
                 {rows.length > 0 &&
                   rows.map(
                     (row, index) =>
-                      typeof renderRow === 'function' &&
+                      typeof renderRow === "function" &&
                       renderRow({ row, index })
                   )}
               </TableBody>
@@ -76,7 +76,7 @@ const BaseTable = ({
         </TableContainer>
       </Paper>
     </Box>
-  )
-}
+  );
+};
 
-export default BaseTable
+export default BaseTable;

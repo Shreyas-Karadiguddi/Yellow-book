@@ -1,4 +1,3 @@
-
 export default function DashBoard() {
-  return <div>This is dashboard</div>
+  return <div>This is dashboard</div>;
 }

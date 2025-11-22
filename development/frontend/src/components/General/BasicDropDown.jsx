@@ -1,29 +1,29 @@
-import { Box, InputLabel, FormControl, Select, MenuItem } from '@mui/material'
+import { Box, InputLabel, FormControl, Select, MenuItem } from "@mui/material";
 
 const BasicDropDown = ({
   width = 120,
   menuItems = [],
-  inputLabel = 'label',
-  value = '',
+  inputLabel = "label",
+  value = "",
   setValue,
-  menuItemDefaultLabel = ''
+  menuItemDefaultLabel = "",
 }) => {
-  const handleChange = event => {
-    setValue(event.target.value)
-  }
+  const handleChange = (event) => {
+    setValue(event.target.value);
+  };
 
   return (
     <Box sx={{ minWidth: width }}>
       <FormControl fullWidth>
-        <InputLabel id='demo-simple-select-label'>{inputLabel}</InputLabel>
+        <InputLabel id="demo-simple-select-label">{inputLabel}</InputLabel>
         <Select
-          labelId='demo-simple-select-label'
-          id='demo-simple-select'
+          labelId="demo-simple-select-label"
+          id="demo-simple-select"
           value={value}
           label={inputLabel}
           onChange={handleChange}
         >
-          <MenuItem value=''>
+          <MenuItem value="">
             <em>None</em>
           </MenuItem>
           {menuItems.length > 0 &&
@@ -35,6 +35,6 @@ const BasicDropDown = ({
         </Select>
       </FormControl>
     </Box>
-  )
-}
-export default BasicDropDown
+  );
+};
+export default BasicDropDown;
