@@ -13,7 +13,7 @@ import UserMaster from "../Admin/UserMaster/UserMaster";
 import CustomerMaster from "../Admin/CustomerMaster/CustomerMaster";
 import Login from "../Login/Login";
 import DrawerComponent from "./Drawer";
-import { decodeToken } from "../../../utils/Auth";
+import { decodeToken } from "../../../utils/auth";
 
 const COMPONENTS = {
   admin: [
