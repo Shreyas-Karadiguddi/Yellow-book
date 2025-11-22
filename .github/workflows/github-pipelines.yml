@@ -1,0 +1,45 @@
+name: Build and Deploy React frontend and express backend on VPS server
+
+on:
+  push:
+    branches:
+      - main
+    tags:
+      - "v*"
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: "22"
+
+      - name: Install frontend dependencies
+        working-directory: ./development/frontend
+        run: yarn install
+
+      - name: Build frontend
+        working-directory: ./development/frontend
+        run: yarn build
+
+      - name: Install backend dependencies
+        working-directory: ./development/backend
+        run: yarn install
+
+      - name: Deploy to VPS server
+        uses: appleboy/ssh-action@v0.1.6
+        with:
+          host: 72.61.171.251
+          username: root
+          key: ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQC8zl9ktx8jpjDxsRaoRSa94BCma83Ys8RHkYQMxIQEqYaguYozQG9HzrtjgUHR8z+So4CXGiJIO2Fg3E1NGfMZiFcXFizIB5O6v4BR5IxZnBVvLqgGzeouDkF3ki6k1pRexBcUkLz3X/7gCgjT+Je7JoriQMqtfggtcDTepADhEavjG9t8bfxBXhuAGQb+TOjS3tL39myHOP/mDi940xsOLhteDzUZyhlAlSSaWwkoSSOYe2bulq/AURWBxqy4n96qy0XLhc3J5Ey0SjyA5rnK5ncipZEatgaJC97FwqNCJEq5BppJv6JuKD1YiQcCtHcwBVjXRdbMOvuzYXxYUsaxOCSNU/CQCgaZMEtYq0U9wvpUeThjE/bSlG3NhgWNcGDtb1k6iimOI9Mg+I04LP5K+NCcWlGAKai3aHnX9VnAulDaWZ8UfnDX/rCdcIRylAmMTPu/engI+Fau1VMtPQg9PjrvRIWAbH9nO1jKDxWWc+aF5Ue0Klgx8jbZB/LOrnO8aKMq3yfsBonmrBWZuwvC78RGUz/hdnVOu0LrbyiM9g+qZ725S5ZueU7EfPdfu+gnkuBgsQ3oXNTUaqfg6U4mxq2ENp96cQllo63c+oTh6lKFbccAnN+PUj4wIllF6Y16Nc9bIpJWMVZq2S+qyM0LYEX8v1rCb/wcZm6jXVKuWQ== root@srv1121376
+          script: |
+            git fetch
+            git pull
+            docker compose down
+            docker compose up --build --scale backend=3 -d
