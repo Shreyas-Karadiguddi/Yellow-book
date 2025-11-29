@@ -35,7 +35,7 @@ services:
       MYSQL_ROOT_PASSWORD: ${MYSQL_PASSWORD}
       MYSQL_DATABASE: ${MYSQL_DATABASE}
     volumes:
-      - ../development-project-data/mysql-data:/var/lib/mysql
+      - ../project-data/mysql-data:/var/lib/mysql
     restart: always
     env_file:
       - .env

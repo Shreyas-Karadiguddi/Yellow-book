@@ -6,7 +6,6 @@ const BasicDropDown = ({
   inputLabel = "label",
   value = "",
   setValue,
-  menuItemDefaultLabel = "",
 }) => {
   const handleChange = (event) => {
     setValue(event.target.value);

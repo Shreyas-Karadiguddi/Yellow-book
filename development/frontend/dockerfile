@@ -1,4 +1,4 @@
-FROM node:22-alpine AS build
+FROM node:24-alpine
 
 WORKDIR /YellowBook/development/frontend
 
@@ -8,8 +8,6 @@ RUN yarn install
 
 ADD development/frontend/ /YellowBook/development/frontend/
 
-RUN yarn build
-
-EXPOSE 80
+EXPOSE 3000
 
 CMD [ "yarn","dev" ]

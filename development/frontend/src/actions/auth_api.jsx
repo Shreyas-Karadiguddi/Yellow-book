@@ -1,5 +1,5 @@
-import { useMutation, useQuery } from "react-query";
-import { axiosInstance as axios } from "../../utils/axiosInstance";
+import { useMutation } from "react-query";
+import { axiosInstance as axios } from "../utils/axiosInstance";
 
 export const useLoginUser = () => {
   return useMutation({
@@ -11,21 +11,5 @@ export const useLoginUser = () => {
           password,
         })
         .then((response) => response.data),
-  });
-};
-
-export const useGetRoutes = () => {
-  return useQuery({
-    queryKey: ["GetRoutes"],
-    queryFn: () =>
-      axios
-        .get(`/users/getroutes`, {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
-          },
-        })
-        .then((response) => response.data),
-    refetchOnWindowFocus: false,
-    enabled: !!localStorage.getItem("token"),
   });
 };

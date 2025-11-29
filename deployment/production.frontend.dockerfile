@@ -8,6 +8,8 @@ RUN yarn install
 
 ADD development/frontend/ /YellowBook/production/frontend
 
+RUN sed -i 's/IS_DEV = true/IS_DEV = false/' /YellowBook/production/frontend/src/utils/axiosInstance.js
+
 RUN yarn build
 
 FROM nginx:alpine

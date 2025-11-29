@@ -17,7 +17,6 @@ const Login = () => {
     mutate: userLogin,
     isLoading: isLoginLoading,
     status: isUserLoggedIn,
-    error: loginError,
   } = authActions.useLoginUser();
 
   useEffect(() => {

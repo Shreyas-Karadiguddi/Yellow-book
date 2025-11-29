@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { useMemo } from "react";
 import { Routes, Route, Navigate } from "react-router-dom";
 import { Toolbar, Box } from "@mui/material";
 import {
@@ -13,7 +13,7 @@ import UserMaster from "../Admin/UserMaster/UserMaster";
 import CustomerMaster from "../Admin/CustomerMaster/CustomerMaster";
 import Login from "../Login/Login";
 import DrawerComponent from "./Drawer";
-import { decodeToken } from "../../../utils/auth";
+import { decodeToken } from "../../utils/auth";
 
 const COMPONENTS = {
   admin: [
@@ -67,7 +67,7 @@ const AuthProvider = () => {
       const role = decodeToken(token);
       return COMPONENTS[role.role];
     }
-  }, []);
+  }, [token]);
 
   if (!token || location.pathname === "/login") {
     return (

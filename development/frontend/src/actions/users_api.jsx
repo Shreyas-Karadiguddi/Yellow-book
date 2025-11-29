@@ -1,5 +1,5 @@
 import { useQuery, useMutation } from "react-query";
-import { axiosInstance as axios } from "../../utils/axiosInstance";
+import { axiosInstance as axios } from "../utils/axiosInstance";
 
 export const useGetAllUsers = () => {
   return useQuery({
